@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import Toast from 'react-native-toast-message';
 import { logOut, store } from '../store';
 
 const $apiClient = axios.create({
@@ -7,16 +8,15 @@ const $apiClient = axios.create({
 });
 
 const handleError = (error: Error | AxiosError) => {
-  //   const { toast } = createStandaloneToast({
-  //     defaultOptions: { status: 'error', ...toastDefaultOptions },
-  //   });
+  console.log(error);
   if (axios.isAxiosError(error) && !!error.response?.data?.message) {
     if (error.response.status === 401) {
       store.dispatch(logOut());
     }
-    // toast({ title: error.response.data.message });
+    Toast.show({ type: 'error', text1: error.response.data.message });
     return Promise.reject(error.response.data);
   } else {
+    Toast.show({ type: 'error', text1: error.message });
     return Promise.reject(error);
   }
 };
