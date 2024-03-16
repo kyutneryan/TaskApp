@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Maybe } from '../../models/common';
 import { logOut } from '../commonActions';
 
 interface AuthState {
-  isFirstTime: boolean;
-  token: string | null;
+  token: Maybe<string>;
   isLoggedIn: boolean;
 }
 
 const initialState: AuthState = {
-  isFirstTime: true,
   token: null,
   isLoggedIn: false,
 };
@@ -23,15 +22,12 @@ export const authSlice = createSlice({
     setIsLoggedIn: state => {
       state.isLoggedIn = true;
     },
-    setIsFirstTime: state => {
-      state.isFirstTime = false;
-    },
   },
   extraReducers: builder => {
     builder.addCase(logOut, () => initialState);
   },
 });
 
-export const { setIsLoggedIn, setIsFirstTime, setToken } = authSlice.actions;
+export const { setIsLoggedIn, setToken } = authSlice.actions;
 
 export default authSlice.reducer;

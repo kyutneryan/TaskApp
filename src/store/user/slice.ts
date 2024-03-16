@@ -1,23 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Maybe } from '../../models/common';
+import { IUser } from '../../models/user';
 import { logOut } from '../commonActions';
 
 interface UserState {
-  user: any;
-  confirmationStatus: any;
-  fcmToken: any;
+  user: Maybe<IUser>;
 }
 
 const initialState: UserState = {
   user: null,
-  confirmationStatus: null,
-  fcmToken: null,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<any>) => {
+    setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
   },

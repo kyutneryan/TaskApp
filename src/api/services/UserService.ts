@@ -1,7 +1,8 @@
 import $apiClient from '..';
+import { IUser } from '../../models/user';
 
 export class UserService {
   static async getMe() {
-    return $apiClient.get<any>('/auth/me');
+    return $apiClient.get<IUser>('/auth/me');
   }
 }
