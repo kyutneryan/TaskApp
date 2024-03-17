@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: verticalScale(10),
-    backgroundColor: COLORS.button,
+    backgroundColor: COLORS.primary,
     borderRadius: moderateScale(10),
   },
   disabled: { opacity: 0.5 },

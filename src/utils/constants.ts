@@ -1,3 +1,5 @@
+import { moderateScale } from './scale';
+
 export const QUERY_KEY = {
   getMe: 'get-me',
 };
@@ -8,5 +10,8 @@ export const COLORS = {
   safeArea: '#F5F5F5',
   border: '#E6E6E6',
   red: 'red',
-  button: '#7867BE',
+  primary: '#7867BE',
+  gray: '#CACACA',
 };
+
+export const HEADER_HEIGHT = moderateScale(48);

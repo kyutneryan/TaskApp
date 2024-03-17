@@ -11,7 +11,7 @@ export type AuthStackParams = {
 
 const { Navigator, Screen } = createNativeStackNavigator<AuthStackParams>();
 
-export type AuthNavigatorProp = NativeStackNavigationProp<AuthStackParams>;
+export type AuthNavigatorProp = NativeStackNavigationProp<AuthStackParams, 'Login'>;
 
 export const AuthNavigator = () => {
   return (

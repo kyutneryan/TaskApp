@@ -8,10 +8,15 @@ const $apiClient = axios.create({
 });
 
 const handleError = (error: Error | AxiosError) => {
-  console.log(error);
+  console.error('IError', error);
   if (axios.isAxiosError(error) && !!error.response?.data?.message) {
-    if (error.response.status === 401) {
-      store.dispatch(logOut());
+    switch (error.response.status) {
+      case 401:
+      case 403:
+        store.dispatch(logOut());
+        break;
+      default:
+        break;
     }
     Toast.show({ type: 'error', text1: error.response.data.message });
     return Promise.reject(error.response.data);

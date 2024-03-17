@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthService } from '../../api/services';
-import Logo from '../../assets/icons/Logo-big.svg';
+import Logo from '../../assets/icons/logo/LogoBig.svg';
 import { Button, Screen, TextInput } from '../../components/atom';
 import { LogInFormData } from '../../models/formData';
 import { setIsLoggedIn, setToken, useAppDispatch } from '../../store';
@@ -22,10 +22,10 @@ export const Login = () => {
 
   const insets = useSafeAreaInsets();
 
-  const { mutate } = useMutation<any, { message: string }, LogInFormData>({
+  const { mutate } = useMutation({
     mutationFn: AuthService.login,
     onSuccess: data => {
-      dispatch(setToken(data.accessToken));
+      dispatch(setToken(data.token));
       dispatch(setIsLoggedIn());
     },
   });

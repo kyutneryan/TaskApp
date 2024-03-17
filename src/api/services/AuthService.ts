@@ -1,8 +1,11 @@
 import $apiClient from '..';
-import { LogInFormData } from '../../models/formData';
+import { LogInFormData, LoginResModel } from '../../models/formData';
 
 export class AuthService {
-  static async login(data: LogInFormData) {
-    return $apiClient.post('/auth/login', data);
+  static async login(data: LogInFormData): Promise<LoginResModel> {
+    return $apiClient.post('/auth/login', {
+      ...data,
+      expiresInMins: 3600,
+    });
   }
 }
