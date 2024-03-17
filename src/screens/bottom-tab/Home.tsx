@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FlatList } from 'react-native-gesture-handler';
 import { ProductService } from '../../api/services';
 import { Loading, Screen } from '../../components/atom';
-import CustomImageSlider from '../../components/molecule/ImageSlider';
+import { ImageSlider } from '../../components/molecule';
 import { ProductsList } from '../../components/organism';
 import { COLORS, QUERY_KEY } from '../../utils/constants';
 import { verticalScale } from '../../utils/scale';
@@ -62,7 +62,7 @@ export const Home = () => {
         ItemSeparatorComponent={renderItemSeparatorComponent}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
-        ListHeaderComponent={<CustomImageSlider />}
+        ListHeaderComponent={<ImageSlider />}
         ListHeaderComponentStyle={styles.headerStyle}
       />
     </Screen>

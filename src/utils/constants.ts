@@ -8,6 +8,7 @@ export const QUERY_KEY = {
   getCategories: 'get-categories',
   getProducts: 'get-products',
   getProductsByCategory: 'get-products-by-category',
+  getProductById: 'get-product-by-id',
 };
 
 export const COLORS = {

@@ -1,5 +1,5 @@
 import $apiClient from '..';
-import { IProducts } from '../../models/common';
+import { IProduct, IProducts } from '../../models/common';
 
 export class ProductService {
   static getCategories() {
@@ -19,5 +19,8 @@ export class ProductService {
   }
   static getProductsByCategory(catgoryName: string, params: { limit: number }) {
     return $apiClient.get<IProducts>(`/products/category/${catgoryName}`, { params });
+  }
+  static getProductById(id: number) {
+    return $apiClient.get<IProduct>(`/products/${id}`);
   }
 }

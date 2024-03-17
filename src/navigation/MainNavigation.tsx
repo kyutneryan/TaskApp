@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BottomTabNavigation } from './BottomTabNavigation';
 import { UserService } from '../api/services';
 import { MainHeader } from '../components/organism';
-import { ProductsByCategory } from '../screens/common/ProductsByCategory';
+import { ProductsByCategory, ProductScreen } from '../screens';
 import { SearchScreen } from '../screens/common/SearchScreen';
 import { setUser, useAppDispatch } from '../store';
 import { QUERY_KEY } from '../utils/constants';
@@ -16,6 +16,7 @@ export type MainStackParams = {
   BottomTabNavigation: undefined;
   SearchScreen: undefined;
   ProductsByCategory: { category: string };
+  ProductScreen: { id: number };
 };
 export type MainNavigatorProp = NativeStackNavigationProp<MainStackParams, 'BottomTabNavigation'>;
 
@@ -50,6 +51,11 @@ export const MainNavigation = () => {
         name="ProductsByCategory"
         component={ProductsByCategory}
         options={{ header: () => <MainHeader /> }}
+      />
+      <Screen
+        name="ProductScreen"
+        component={ProductScreen}
+        options={{ header: () => <MainHeader hasSearch={false} /> }}
       />
     </Navigator>
   );

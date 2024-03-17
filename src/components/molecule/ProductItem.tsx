@@ -1,9 +1,11 @@
 import React, { FC, memo, useCallback, useMemo } from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import HeartIcon from '../../assets/icons/Heart.svg';
 import StarIcon from '../../assets/icons/Star.svg';
 import RedHeartIcon from '../../assets/icons/Wishlist.svg';
 import { IProduct } from '../../models/common';
+import { MainNavigatorProp } from '../../navigation/MainNavigation';
 import {
   addToWishList,
   getWishLists,
@@ -21,6 +23,7 @@ interface Props {
 
 const ProductItem: FC<Props> = ({ product }) => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<MainNavigatorProp>();
   const wishList = useAppSelector(getWishLists);
   const isExist = useMemo(
     () => !!wishList.find(({ id }) => id === product.id),
@@ -35,8 +38,13 @@ const ProductItem: FC<Props> = ({ product }) => {
     }
   }, [dispatch, isExist, product]);
 
+  const navigateToProductScreen = useCallback(
+    () => navigation.navigate('ProductScreen', { id: product.id }),
+    [navigation, product.id],
+  );
+
   return (
-    <View style={styles.base}>
+    <Pressable style={styles.base} onPress={navigateToProductScreen}>
       <View style={styles.imageWrapper}>
         <ImageBackground
           source={{ uri: product.thumbnail }}
@@ -56,7 +64,7 @@ const ProductItem: FC<Props> = ({ product }) => {
         </View>
         <Text style={styles.price}>{product.price}$</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
