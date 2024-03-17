@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: moderateScale(10),
     lineHeight: moderateScale(12),
+    paddingBottom: verticalScale(2),
   },
-  tabBarStyle: { borderTopWidth: 0, paddingBottom: verticalScale(2) },
+  tabBarStyle: { borderTopWidth: 0 },
 });
