@@ -62,7 +62,7 @@ const ProductsList: FC<Props> = ({ category }) => {
 
 const styles = StyleSheet.create({
   columnWrapper: { justifyContent: 'space-between', gap: horizontalScale(5) },
-  divider: { height: verticalScale(10) },
+  divider: { height: verticalScale(15) },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
