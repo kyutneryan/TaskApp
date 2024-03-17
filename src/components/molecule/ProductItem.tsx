@@ -1,9 +1,11 @@
 import React, { FC, memo } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import HeartIcon from '../../assets/icons/Heart.svg';
 import StarIcon from '../../assets/icons/Star.svg';
 import { IProduct } from '../../models/common';
 import { COLORS } from '../../utils/constants';
 import { horizontalScale, moderateScale, verticalScale } from '../../utils/scale';
+import { IconButton } from '../atom';
 
 interface Props {
   product: IProduct;
@@ -17,7 +19,7 @@ const ProductItem: FC<Props> = ({ product }) => {
           source={{ uri: product.thumbnail }}
           resizeMode="cover"
           style={styles.image}>
-          <Text style={styles.title}>{'category.name'}</Text>
+          <IconButton Icon={<HeartIcon />} />
         </ImageBackground>
       </View>
       <Text style={styles.title}>{product.title}</Text>
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: moderateScale(164),
-    padding: moderateScale(5),
+
     alignItems: 'flex-end',
   },
   title: {
