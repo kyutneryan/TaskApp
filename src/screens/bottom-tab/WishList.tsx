@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
+import { useScrollToTop } from '@react-navigation/native';
 import { Screen } from '../../components/atom';
 import { ProductItem } from '../../components/molecule';
 import { IProduct } from '../../models/common';
@@ -9,6 +10,7 @@ import { horizontalScale, verticalScale } from '../../utils/scale';
 
 export const WishList = () => {
   const wishList = useAppSelector(getWishLists);
+  const ref = useRef(null);
 
   const keyExtractor = useCallback((item: IProduct) => item.id.toString(), []);
 
@@ -23,9 +25,12 @@ export const WishList = () => {
     [],
   );
 
+  useScrollToTop(ref);
+
   return (
     <Screen edges={[]}>
       <FlatList
+        ref={ref}
         scrollEnabled
         data={wishList}
         numColumns={2}
