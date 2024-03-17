@@ -1,6 +1,8 @@
 import React, { FC, memo } from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Pressable, StyleSheet, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { ICategory } from '../../models/common';
+import { MainNavigatorProp } from '../../navigation/MainNavigation';
 import { COLORS } from '../../utils/constants';
 import { moderateScale, verticalScale } from '../../utils/scale';
 
@@ -9,12 +11,15 @@ interface Props {
 }
 
 const CategoryItem: FC<Props> = ({ category }) => {
+  const navigation = useNavigation<MainNavigatorProp>();
   return (
-    <View style={styles.flex}>
+    <Pressable
+      style={styles.flex}
+      onPress={() => navigation.navigate('ProductsByCategory', { category: category.id })}>
       <ImageBackground source={category.image} resizeMode="cover" style={styles.image}>
         <Text style={styles.text}>{category.name}</Text>
       </ImageBackground>
-    </View>
+    </Pressable>
   );
 };
 
