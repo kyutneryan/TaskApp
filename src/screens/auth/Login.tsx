@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { object, string } from 'yup';
 import { AuthService } from '../../api/services';
 import Logo from '../../assets/icons/logo/LogoBig.svg';
 import { Button, Loading, Screen, TextInput } from '../../components/atom';
@@ -12,13 +14,21 @@ import { setIsLoggedIn, setToken, useAppDispatch } from '../../store';
 import { COLORS } from '../../utils/constants';
 import { moderateScale, verticalScale } from '../../utils/scale';
 
+const resolver = object().shape({
+  username: string().required('Username is required'),
+  password: string().required('Password is required'),
+});
+
 export const Login = () => {
   const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<LogInFormData>({ defaultValues: { username: 'atuny0', password: '9uQFF1Lh' } });
+  } = useForm<LogInFormData>({
+    defaultValues: { username: 'atuny0', password: '9uQFF1Lh' },
+    resolver: yupResolver(resolver),
+  });
 
   const insets = useSafeAreaInsets();
 
@@ -46,9 +56,6 @@ export const Login = () => {
         <Controller
           name="username"
           control={control}
-          rules={{
-            required: 'Username is required',
-          }}
           render={({ field: { onChange, value, name } }) => (
             <TextInput
               isRequired
@@ -63,9 +70,6 @@ export const Login = () => {
         <Controller
           name="password"
           control={control}
-          rules={{
-            required: 'Password is required',
-          }}
           render={({ field: { onChange, value, name } }) => (
             <TextInput
               isRequired
