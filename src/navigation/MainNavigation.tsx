@@ -6,6 +6,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { BottomTabNavigation } from './BottomTabNavigation';
 import { UserService } from '../api/services';
+import { MainHeader } from '../components/organism';
 import { SearchPage } from '../screens';
 import { setUser, useAppDispatch } from '../store';
 import { QUERY_KEY } from '../utils/constants';
@@ -38,7 +39,11 @@ export const MainNavigation = () => {
         component={BottomTabNavigation}
         options={{ headerShown: false }}
       />
-      <Screen name="SearchPage" component={SearchPage} options={{ headerShown: false }} />
+      <Screen
+        name="SearchPage"
+        component={SearchPage}
+        options={{ header: () => <MainHeader hasSearch={false} /> }}
+      />
     </Navigator>
   );
 };

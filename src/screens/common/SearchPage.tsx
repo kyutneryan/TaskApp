@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
+import { Screen } from '../../components/atom';
 import { ProductItem } from '../../components/molecule';
 import { IProduct } from '../../models/common';
 import { COLORS, QUERY_KEY } from '../../utils/constants';
@@ -27,18 +28,19 @@ export const SearchPage = () => {
   );
 
   return (
-    <FlatList
-      data={data?.products}
-      numColumns={2}
-      scrollEnabled={false}
-      contentContainerStyle={styles.flatList}
-      columnWrapperStyle={styles.columnWrapper}
-      renderItem={renderItem}
-      ItemSeparatorComponent={renderItemSeparatorComponent}
-      keyExtractor={keyExtractor}
-      showsVerticalScrollIndicator={false}
-      ListEmptyComponent={renderListEmptyComponent}
-    />
+    <Screen edges={['bottom', 'left', 'right']}>
+      <FlatList
+        data={data?.products}
+        numColumns={2}
+        contentContainerStyle={styles.flatList}
+        columnWrapperStyle={styles.columnWrapper}
+        renderItem={renderItem}
+        ItemSeparatorComponent={renderItemSeparatorComponent}
+        keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={renderListEmptyComponent}
+      />
+    </Screen>
   );
 };
 

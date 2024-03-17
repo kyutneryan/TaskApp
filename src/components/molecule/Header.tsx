@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import BackIcon from '../../assets/icons/ArrowBlackLeft.svg';
 import SearchBlackIcon from '../../assets/icons/SearchBlackIcon.svg';
 import { Maybe } from '../../models/common';
+import { MainNavigatorProp } from '../../navigation/MainNavigation';
 import { COLORS, HEADER_HEIGHT } from '../../utils/constants';
 import { horizontalScale } from '../../utils/scale';
 import { IconButton } from '../atom';
@@ -24,7 +25,7 @@ const Header: FC<Props> = ({
   hasSearch = true,
   CenterComponent = null,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<MainNavigatorProp>();
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
@@ -43,7 +44,10 @@ const Header: FC<Props> = ({
         <View style={styles.right}>
           {hasSearch ? (
             <View style={styles.iconWrapper}>
-              <IconButton Icon={<SearchBlackIcon />} onPress={() => {}} />
+              <IconButton
+                Icon={<SearchBlackIcon />}
+                onPress={() => navigation.navigate('SearchPage')}
+              />
             </View>
           ) : (
             RightComponent
