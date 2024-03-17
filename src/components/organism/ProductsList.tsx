@@ -45,7 +45,7 @@ const ProductsList: FC<Props> = ({ category }) => {
 
   return (
     <FlatList
-      data={data?.products || []}
+      data={data?.products}
       numColumns={2}
       scrollEnabled={false}
       columnWrapperStyle={styles.columnWrapper}

@@ -1,59 +1,82 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import { ListRenderItemInfo, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { useScrollToTop } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
+import { FlatList } from 'react-native-gesture-handler';
 import { ProductService } from '../../api/services';
-import { Screen } from '../../components/atom';
+import { Loading, Screen } from '../../components/atom';
 import CustomImageSlider from '../../components/molecule/ImageSlider';
 import { ProductsList } from '../../components/organism';
 import { COLORS, QUERY_KEY } from '../../utils/constants';
 import { verticalScale } from '../../utils/scale';
 
 export const Home = () => {
-  const categoriesQuery = useQuery({
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const ref = useRef(null);
+
+  const { data, isLoading, refetch } = useQuery({
     queryKey: [QUERY_KEY.getCategories],
     queryFn: ProductService.getCategories,
   });
 
-  // const keyExtractor = useCallback((item: ICategory) => item.id.toString(), []);
+  const onRefresh = useCallback(async () => {
+    try {
+      setRefreshing(true);
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refetch]);
 
-  // const renderItem = useCallback(({ item }: ListRenderItemInfo<ICategory>) => {
-  //   return <CategoryItem category={item} />;
-  // }, []);
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<string>) => <ProductsList category={item} />,
+    [],
+  );
 
-  // const renderItemSeparatorComponent = useCallback(() => <View style={styles.divider} />, []);
+  const renderItemSeparatorComponent = useCallback(() => <View style={styles.divider} />, []);
 
-  // const renderListEmptyComponent = useCallback(
-  //   () => (isLoading ? <Loading visible /> : <Text style={styles.emptyScreenText}>No data</Text>),
-  //   [isLoading],
-  // );
+  const renderListEmptyComponent = useCallback(
+    () => (isLoading ? <Loading visible /> : <Text style={styles.emptyScreenText}>No data</Text>),
+    [isLoading],
+  );
 
-  // console.log(data?.products[0]);
+  useScrollToTop(ref);
 
   return (
     <Screen edges={[]}>
-      <CustomImageSlider />
-      <ProductsList category="smartphones" />
-      {/* <FlatList
-        refreshControl={<RefreshControl refetch={refetch} />}
+      <FlatList
+        ref={ref}
         data={data}
+        refreshControl={
+          <RefreshControl
+            tintColor={`${COLORS.primary}80`}
+            colors={[COLORS.primary]}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
         contentContainerStyle={styles.flatList}
         renderItem={renderItem}
         ItemSeparatorComponent={renderItemSeparatorComponent}
-        keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
+        ListHeaderComponent={<CustomImageSlider />}
+        ListHeaderComponentStyle={styles.headerStyle}
         scrollEventThrottle={16}
         scrollToOverflowEnabled={true}
         automaticallyAdjustContentInsets={false}
         keyboardDismissMode="on-drag"
-      /> */}
+      />
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
   flatList: { paddingVertical: verticalScale(20) },
-  divider: { height: verticalScale(15) },
+  headerStyle: { paddingBottom: verticalScale(20) },
+  divider: { marginVertical: verticalScale(20), borderTopWidth: 1, borderColor: COLORS.border },
   emptyScreenText: {
     paddingTop: verticalScale(40),
     fontWeight: '400',
