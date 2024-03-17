@@ -15,7 +15,9 @@ export type AuthNavigatorProp = NativeStackNavigationProp<AuthStackParams, 'Logi
 
 export const AuthNavigator = () => {
   return (
-    <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+    <Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false, orientation: 'portrait' }}>
       <Screen name="Login" component={Login} />
     </Navigator>
   );

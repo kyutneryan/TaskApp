@@ -35,7 +35,7 @@ export const MainNavigation = () => {
   }, [data, dispatch, isSuccess]);
 
   return (
-    <Navigator initialRouteName="BottomTabNavigation">
+    <Navigator initialRouteName="BottomTabNavigation" screenOptions={{ orientation: 'portrait' }}>
       <Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
