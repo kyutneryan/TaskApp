@@ -46,7 +46,7 @@ const Header: FC<Props> = ({
             <View style={styles.iconWrapper}>
               <IconButton
                 Icon={<SearchBlackIcon />}
-                onPress={() => navigation.navigate('SearchPage')}
+                onPress={() => navigation.navigate('SearchScreen')}
               />
             </View>
           ) : (
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   left: {
     flex: 1,
+    zIndex: 1,
   },
 });
 

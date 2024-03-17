@@ -7,13 +7,13 @@ import { useQuery } from '@tanstack/react-query';
 import { BottomTabNavigation } from './BottomTabNavigation';
 import { UserService } from '../api/services';
 import { MainHeader } from '../components/organism';
-import { SearchPage } from '../screens';
+import { SearchScreen } from '../screens/common/SearchScreen';
 import { setUser, useAppDispatch } from '../store';
 import { QUERY_KEY } from '../utils/constants';
 
 export type MainStackParams = {
   BottomTabNavigation: undefined;
-  SearchPage: undefined;
+  SearchScreen: undefined;
 };
 export type MainNavigatorProp = NativeStackNavigationProp<MainStackParams, 'BottomTabNavigation'>;
 
@@ -40,8 +40,8 @@ export const MainNavigation = () => {
         options={{ headerShown: false }}
       />
       <Screen
-        name="SearchPage"
-        component={SearchPage}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{ header: () => <MainHeader hasSearch={false} /> }}
       />
     </Navigator>

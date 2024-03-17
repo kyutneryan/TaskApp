@@ -9,11 +9,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { Maybe } from '../../models/common';
 import { COLORS } from '../../utils/constants';
 import { horizontalScale, moderateScale, verticalScale } from '../../utils/scale';
 
 interface Props extends TextInputProps {
   isRequired?: boolean;
+  Icon?: Maybe<React.ReactNode>;
   label?: string;
   hasError?: boolean;
   wrapperStyle?: StyleProp<ViewStyle>;
@@ -21,7 +23,7 @@ interface Props extends TextInputProps {
 }
 
 const TextInput = forwardRef<Input, Props>(
-  ({ isRequired, label, hasError = false, wrapperStyle, onLayout, style, ...rest }, ref) => {
+  ({ isRequired, label, hasError = false, wrapperStyle, onLayout, style, Icon, ...rest }, ref) => {
     return (
       <View style={styles.base} onLayout={onLayout}>
         {!!label && (
@@ -31,6 +33,7 @@ const TextInput = forwardRef<Input, Props>(
           </Text>
         )}
         <View style={[styles.wrapper, hasError && styles.wrapperError, wrapperStyle]}>
+          {Icon}
           <Input
             ref={ref}
             spellCheck={false}

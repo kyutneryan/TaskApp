@@ -1,7 +1,7 @@
 import React, { FC, memo, useCallback } from 'react';
 import { useRoute } from '@react-navigation/native';
 import Logo from '../../assets/icons/logo/HeaderLogo.svg';
-import { HeaderTitle } from '../atom';
+import { HeaderTitle, SearchInput } from '../atom';
 import { Header } from '../molecule';
 
 interface Props {
@@ -38,6 +38,8 @@ const MainHeader: FC<Props> = ({ hasBack, hasSearch }) => {
 
   const renderCenterComponent = useCallback((routeName: string) => {
     switch (routeName) {
+      case 'SearchScreen':
+        return <SearchInput searchName="" onChange={() => null} />;
       case 'HomeScreen':
         return null;
       case 'Categories':

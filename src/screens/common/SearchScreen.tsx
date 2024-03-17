@@ -8,7 +8,7 @@ import { IProduct, IProducts } from '../../models/common';
 import { COLORS, ITEMS_PER_PAGE, QUERY_KEY } from '../../utils/constants';
 import { horizontalScale, verticalScale } from '../../utils/scale';
 
-export const SearchPage = () => {
+export const SearchScreen = () => {
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
     useInfiniteQuery<IProducts[], Error>({
       initialPageParam: 0,
@@ -65,6 +65,7 @@ export const SearchPage = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
         onEndReached={onEndReached}
+        keyboardDismissMode="on-drag"
         onEndReachedThreshold={0.5}
         scrollEventThrottle={16}
       />
