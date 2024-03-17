@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native-gesture-handler';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { object, string } from 'yup';
 import { AuthService } from '../../api/services';
@@ -45,43 +45,44 @@ export const Login = () => {
       edges={['left', 'right', 'bottom']}
       style={{ backgroundColor: COLORS.white, paddingTop: insets.top }}>
       <Loading visible={isPending} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.base}>
-        <Text style={styles.title}>LOG IN</Text>
-        <View style={styles.logo}>
-          <Logo />
-        </View>
-        <Controller
-          name="username"
-          control={control}
-          render={({ field: { onChange, value, name } }) => (
-            <TextInput
-              isRequired
-              label="Username"
-              hasError={!!errors[name]}
-              value={value}
-              onChangeText={onChange}
-            />
-          )}
-        />
-        <View style={styles.divider} />
-        <Controller
-          name="password"
-          control={control}
-          render={({ field: { onChange, value, name } }) => (
-            <TextInput
-              isRequired
-              secureTextEntry
-              label="Password"
-              hasError={!!errors[name]}
-              value={value}
-              onChangeText={onChange}
-            />
-          )}
-        />
-      </ScrollView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Text style={styles.title}>LOG IN</Text>
+          <View style={styles.logo}>
+            <Logo />
+          </View>
+          <Controller
+            name="username"
+            control={control}
+            render={({ field: { onChange, value, name } }) => (
+              <TextInput
+                isRequired
+                label="Username"
+                hasError={!!errors[name]}
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
+          />
+          <View style={styles.divider} />
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { onChange, value, name } }) => (
+              <TextInput
+                isRequired
+                secureTextEntry
+                label="Password"
+                hasError={!!errors[name]}
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
+          />
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
       <View style={styles.btnWrapper}>
         <Button text="LOG IN" onPress={handleSubmit(data => mutate(data))} />
       </View>
