@@ -2,19 +2,28 @@ import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
-import { RefreshControl, Screen } from '../../components/atom';
+import { Loading, RefreshControl, Screen } from '../../components/atom';
 import { ProductItem } from '../../components/molecule';
+import useDebounce from '../../hooks/useDebounce';
 import { IProduct, IProducts } from '../../models/common';
+import { getProductSearchValue, useAppSelector } from '../../store';
 import { COLORS, ITEMS_PER_PAGE, QUERY_KEY } from '../../utils/constants';
 import { horizontalScale, verticalScale } from '../../utils/scale';
 
 export const SearchScreen = () => {
+  const searchName = useAppSelector(getProductSearchValue);
+  const debouncedSearchName = useDebounce(searchName, 300);
+
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
     useInfiniteQuery<IProducts[], Error>({
       initialPageParam: 0,
-      queryKey: [QUERY_KEY.getProducts],
+      queryKey: [QUERY_KEY.getProducts, debouncedSearchName],
       queryFn: ({ pageParam }) =>
-        ProductService.getProducts({ skip: pageParam as number, limit: ITEMS_PER_PAGE }),
+        ProductService.getProducts({
+          skip: pageParam as number,
+          limit: ITEMS_PER_PAGE,
+          searchName: debouncedSearchName,
+        }),
       getNextPageParam: (lastPage: IProducts[], pages) => {
         if (lastPage?.length < ITEMS_PER_PAGE) {
           return false;
@@ -43,7 +52,7 @@ export const SearchScreen = () => {
   const renderItemSeparatorComponent = useCallback(() => <View style={styles.divider} />, []);
 
   const renderListEmptyComponent = useCallback(
-    () => (isLoading ? null : <Text style={styles.emptyScreenText}>No data</Text>),
+    () => (isLoading ? <Loading visible /> : <Text style={styles.emptyScreenText}>No data</Text>),
     [isLoading],
   );
 
@@ -82,5 +91,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: verticalScale(19),
     color: COLORS.text,
+    textAlign: 'center',
   },
 });
