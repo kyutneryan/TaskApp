@@ -4,11 +4,17 @@ import { useQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
 import { Screen } from '../../components/atom';
 import CustomImageSlider from '../../components/molecule/ImageSlider';
+import ProductItem from '../../components/molecule/ProductItem';
 import { COLORS, QUERY_KEY } from '../../utils/constants';
 import { verticalScale } from '../../utils/scale';
 
 export const Home = () => {
-  const { data, isLoading, refetch } = useQuery({
+  const categoriesQuery = useQuery({
+    queryKey: [QUERY_KEY.getProducts],
+    queryFn: ProductService.getCategories,
+  });
+
+  const productsQuery = useQuery({
     queryKey: [QUERY_KEY.getProducts],
     queryFn: ProductService.getProducts,
   });
@@ -31,6 +37,7 @@ export const Home = () => {
   return (
     <Screen edges={[]}>
       <CustomImageSlider />
+      <ProductItem />
       {/* <FlatList
         refreshControl={<RefreshControl refetch={refetch} />}
         data={data}

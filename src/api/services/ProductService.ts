@@ -7,4 +7,7 @@ export class ProductService {
   static getProducts() {
     return $apiClient.get<Array<any>>('/products');
   }
+  static getProductsByCategory(catgoryName: string) {
+    return $apiClient.get<Array<any>>(`/products/category/${catgoryName}`);
+  }
 }

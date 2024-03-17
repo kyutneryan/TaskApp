@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, memo, useCallback, useState } from 'react';
 import {
   Image,
   NativeScrollEvent,
@@ -11,7 +11,7 @@ import { COLORS, HORIZONTAL_PADDING, WINDOW_WIDTH } from '../../utils/constants'
 import { banners } from '../../utils/helpers';
 import { moderateScale, verticalScale } from '../../utils/scale';
 
-const CustomImageSlider: FC = () => {
+const ImageSlider: FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     setCurrentPage(Math.round(event.nativeEvent.contentOffset.x / WINDOW_WIDTH));
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomImageSlider;
+export default memo(ImageSlider);
