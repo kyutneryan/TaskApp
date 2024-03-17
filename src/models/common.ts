@@ -21,3 +21,10 @@ export interface IProduct {
   thumbnail: string;
   title: string;
 }
+
+export interface IProducts {
+  limit: number;
+  total: number;
+  skip: number;
+  products: Array<IProduct>;
+}

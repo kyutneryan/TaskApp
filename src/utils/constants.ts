@@ -6,7 +6,8 @@ export const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get('wi
 export const QUERY_KEY = {
   getMe: 'get-me',
   getCategories: 'get-categories',
-  getProductsByCategory: 'get-products-by-category,',
+  getProducts: 'get-products',
+  getProductsByCategory: 'get-products-by-category',
 };
 
 export const COLORS = {

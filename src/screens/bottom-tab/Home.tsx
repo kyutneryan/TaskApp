@@ -64,10 +64,6 @@ export const Home = () => {
         ListEmptyComponent={renderListEmptyComponent}
         ListHeaderComponent={<CustomImageSlider />}
         ListHeaderComponentStyle={styles.headerStyle}
-        scrollEventThrottle={16}
-        scrollToOverflowEnabled={true}
-        automaticallyAdjustContentInsets={false}
-        keyboardDismissMode="on-drag"
       />
     </Screen>
   );

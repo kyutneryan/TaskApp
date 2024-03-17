@@ -1,26 +1,14 @@
 import $apiClient from '..';
-import { IProduct } from '../../models/common';
+import { IProducts } from '../../models/common';
 
 export class ProductService {
   static getCategories() {
     return $apiClient.get<Array<string>>('/products/categories');
   }
   static getProducts() {
-    return $apiClient.get<
-      Array<{
-        limit: number;
-        total: number;
-        skip: number;
-        products: Array<IProduct>;
-      }>
-    >('/products');
+    return $apiClient.get<IProducts>('/products');
   }
-  static getProductsByCategory(catgoryName: string) {
-    return $apiClient.get<{
-      limit: number;
-      total: number;
-      skip: number;
-      products: Array<IProduct>;
-    }>(`/products/category/${catgoryName}`, { params: { limit: 4 } });
+  static getProductsByCategory(catgoryName: string, params: { limit: number }) {
+    return $apiClient.get<IProducts>(`/products/category/${catgoryName}`, { params });
   }
 }

@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
+import { useScrollToTop } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
 import { Loading, RefreshControl, Screen } from '../../components/atom';
@@ -10,6 +11,7 @@ import { transformCategoriesData } from '../../utils/helpers';
 import { verticalScale } from '../../utils/scale';
 
 export const Categories = () => {
+  const ref = useRef(null);
   const { data, isLoading, refetch } = useQuery({
     queryKey: [QUERY_KEY.getCategories],
     queryFn: ProductService.getCategories,
@@ -29,9 +31,12 @@ export const Categories = () => {
     [isLoading],
   );
 
+  useScrollToTop(ref);
+
   return (
     <Screen edges={[]}>
       <FlatList
+        ref={ref}
         refreshControl={<RefreshControl refetch={refetch} />}
         data={data}
         contentContainerStyle={styles.flatList}
@@ -40,10 +45,6 @@ export const Categories = () => {
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
-        scrollEventThrottle={16}
-        scrollToOverflowEnabled={true}
-        automaticallyAdjustContentInsets={false}
-        keyboardDismissMode="on-drag"
       />
     </Screen>
   );
