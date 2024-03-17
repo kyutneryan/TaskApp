@@ -1,32 +1,20 @@
-import React, { useCallback, useState } from 'react';
-import { FlatList, ListRenderItemInfo, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
-import { Loading, Screen } from '../../components/atom';
+import { Loading, RefreshControl, Screen } from '../../components/atom';
 import { CategoryItem } from '../../components/molecule';
 import { ICategory } from '../../models/common';
-import { COLORS, QUERY_KEY } from '../../utils/constants';
+import { QUERY_KEY } from '../../utils/constants';
 import { transformCategoriesData } from '../../utils/helpers';
 import { verticalScale } from '../../utils/scale';
 
 export const Categories = () => {
-  const [refreshing, setRefreshing] = useState<boolean>(false);
   const { data, isLoading, refetch } = useQuery({
     queryKey: [QUERY_KEY.getCategories],
     queryFn: ProductService.getCategories,
     select: transformCategoriesData,
   });
-
-  const onRefresh = useCallback(async () => {
-    try {
-      setRefreshing(true);
-      await refetch();
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setRefreshing(false);
-    }
-  }, [refetch]);
 
   const keyExtractor = useCallback((item: ICategory) => item.id.toString(), []);
 
@@ -44,14 +32,7 @@ export const Categories = () => {
   return (
     <Screen edges={[]}>
       <FlatList
-        refreshControl={
-          <RefreshControl
-            tintColor={`${COLORS.primary}80`}
-            colors={[COLORS.primary]}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
+        refreshControl={<RefreshControl refetch={refetch} />}
         data={data}
         contentContainerStyle={styles.flatList}
         renderItem={renderItem}
