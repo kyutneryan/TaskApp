@@ -2,6 +2,7 @@ import { moderateScale } from './scale';
 
 export const QUERY_KEY = {
   getMe: 'get-me',
+  getCategories: 'get-categories',
 };
 
 export const COLORS = {

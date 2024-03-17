@@ -1,3 +1,4 @@
+import CategoryItem from './CategoryItem';
 import Header from './Header';
 
-export { Header };
+export { Header, CategoryItem };
