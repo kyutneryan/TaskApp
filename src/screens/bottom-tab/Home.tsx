@@ -31,7 +31,7 @@ export const Home = () => {
   }, [refetch]);
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<string>) => <ProductsList category={item} />,
+    ({ item }: ListRenderItemInfo<string>) => <ProductsList withHeader category={item} />,
     [],
   );
 
