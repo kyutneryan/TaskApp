@@ -1,8 +1,16 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import HeartIcon from '../../assets/icons/Heart.svg';
 import StarIcon from '../../assets/icons/Star.svg';
+import RedHeartIcon from '../../assets/icons/Wishlist.svg';
 import { IProduct } from '../../models/common';
+import {
+  addToWishList,
+  getWishLists,
+  removeFromWishList,
+  useAppDispatch,
+  useAppSelector,
+} from '../../store';
 import { COLORS } from '../../utils/constants';
 import { horizontalScale, moderateScale, verticalScale } from '../../utils/scale';
 import { IconButton } from '../atom';
@@ -12,6 +20,21 @@ interface Props {
 }
 
 const ProductItem: FC<Props> = ({ product }) => {
+  const dispatch = useAppDispatch();
+  const wishList = useAppSelector(getWishLists);
+  const isExist = useMemo(
+    () => !!wishList.find(({ id }) => id === product.id),
+    [product.id, wishList],
+  );
+
+  const handleChangeWishList = useCallback(() => {
+    if (isExist) {
+      dispatch(removeFromWishList(product));
+    } else {
+      dispatch(addToWishList(product));
+    }
+  }, [dispatch, isExist, product]);
+
   return (
     <View style={styles.base}>
       <View style={styles.imageWrapper}>
@@ -19,7 +42,10 @@ const ProductItem: FC<Props> = ({ product }) => {
           source={{ uri: product.thumbnail }}
           resizeMode="cover"
           style={styles.image}>
-          <IconButton Icon={<HeartIcon />} />
+          <IconButton
+            Icon={isExist ? <RedHeartIcon /> : <HeartIcon />}
+            onPress={handleChangeWishList}
+          />
         </ImageBackground>
       </View>
       <Text style={styles.title}>{product.title}</Text>

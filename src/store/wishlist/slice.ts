@@ -18,7 +18,7 @@ export const wishListSlice = createSlice({
       state.wishList.push(action.payload);
     },
     removeFromWishList: (state, action: PayloadAction<IProduct>) => {
-      state.wishList = state.wishList.filter(({ id }) => action.payload.id === id);
+      state.wishList = state.wishList.filter(({ id }) => action.payload.id !== id);
     },
   },
   extraReducers: builder => {
