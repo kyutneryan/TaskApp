@@ -9,3 +9,6 @@ export * from './user/selectors';
 
 export * from './common/slice';
 export * from './common/selectors';
+
+export * from './wishlist/slice';
+export * from './wishlist/selectors';
