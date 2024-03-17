@@ -5,7 +5,7 @@ import { ProductService } from '../../api/services';
 import { Loading, RefreshControl, Screen } from '../../components/atom';
 import { CategoryItem } from '../../components/molecule';
 import { ICategory } from '../../models/common';
-import { QUERY_KEY } from '../../utils/constants';
+import { COLORS, QUERY_KEY } from '../../utils/constants';
 import { transformCategoriesData } from '../../utils/helpers';
 import { verticalScale } from '../../utils/scale';
 
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     paddingTop: verticalScale(40),
     fontWeight: '400',
     lineHeight: verticalScale(19),
-    color: 'rgba(0, 0, 0, 0.6)',
+    color: COLORS.text,
   },
 });

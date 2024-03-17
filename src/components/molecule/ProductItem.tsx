@@ -1,25 +1,32 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import ban from '../../assets/banner/banner1.jpg';
 import StarIcon from '../../assets/icons/Star.svg';
+import { IProduct } from '../../models/common';
 import { COLORS } from '../../utils/constants';
 import { horizontalScale, moderateScale, verticalScale } from '../../utils/scale';
 
-const ProductItem = () => {
+interface Props {
+  product: IProduct;
+}
+
+const ProductItem: FC<Props> = ({ product }) => {
   return (
     <View style={styles.base}>
       <View style={styles.imageWrapper}>
-        <ImageBackground source={ban} resizeMode="cover" style={styles.image}>
+        <ImageBackground
+          source={{ uri: product.thumbnail }}
+          resizeMode="cover"
+          style={styles.image}>
           <Text style={styles.title}>{'category.name'}</Text>
         </ImageBackground>
       </View>
-      <Text style={styles.title}>{'category.name'}</Text>
+      <Text style={styles.title}>{product.title}</Text>
       <View style={styles.footer}>
         <View style={styles.rating}>
           <StarIcon />
-          <Text style={styles.title}>3.4</Text>
+          <Text style={styles.title}>{product.rating}</Text>
         </View>
-        <Text style={styles.price}>500$</Text>
+        <Text style={styles.price}>{product.price}$</Text>
       </View>
     </View>
   );
