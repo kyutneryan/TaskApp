@@ -1,8 +1,7 @@
 import React, { FC, memo, PropsWithChildren } from 'react';
 import { StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Edge, SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS } from '../../utils/constants';
-import { horizontalScale } from '../../utils/scale';
+import { COLORS, HORIZONTAL_PADDING } from '../../utils/constants';
 
 interface Props {
   edges?: Edge[];
@@ -20,7 +19,7 @@ const Screen: FC<PropsWithChildren<Props>> = ({ edges, children, style }) => {
 
 const styles = StyleSheet.create({
   base: { flex: 1, backgroundColor: COLORS.safeArea },
-  child: { flex: 1, paddingHorizontal: horizontalScale(15) },
+  child: { flex: 1, paddingHorizontal: HORIZONTAL_PADDING },
 });
 
 export default memo(Screen);

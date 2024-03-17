@@ -1,3 +1,6 @@
+import banner1 from '../assets/banner/banner1.jpg';
+import banner2 from '../assets/banner/banner2.jpg';
+import banner3 from '../assets/banner/banner3.jpg';
 import automotive from '../assets/images/automotive.jpg';
 import fragrances from '../assets/images/fragrances.jpg';
 import furniture from '../assets/images/furniture.jpg';
@@ -40,6 +43,12 @@ const categoriesWithImage = [
   { key: 'automotive', image: automotive },
   { key: 'motorcycle', image: motorcycle },
   { key: 'lighting', image: lighting },
+];
+
+export const banners = [
+  { id: 1, banner: banner1 },
+  { id: 2, banner: banner2 },
+  { id: 3, banner: banner3 },
 ];
 
 export const transformCategoriesData = (data: Array<string>) => {
