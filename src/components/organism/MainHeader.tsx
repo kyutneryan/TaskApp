@@ -1,6 +1,7 @@
 import React, { FC, memo, useCallback } from 'react';
-import { useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import Logo from '../../assets/icons/logo/HeaderLogo.svg';
+import { MainStackParams } from '../../navigation/MainNavigation';
 import {
   getProductSearchValue,
   setProductSearchValue,
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const MainHeader: FC<Props> = ({ hasBack, hasSearch }) => {
-  const route = useRoute();
+  const route = useRoute<RouteProp<MainStackParams, 'ProductsByCategory'>>();
   const dispatch = useAppDispatch();
   const searchValue = useAppSelector(getProductSearchValue);
 
@@ -47,6 +48,8 @@ const MainHeader: FC<Props> = ({ hasBack, hasSearch }) => {
   const renderCenterComponent = useCallback(
     (routeName: string) => {
       switch (routeName) {
+        case 'ProductsByCategory':
+          return <HeaderTitle title={route.params.category.toUpperCase()} />;
         case 'SearchScreen':
           return (
             <SearchInput
@@ -64,7 +67,7 @@ const MainHeader: FC<Props> = ({ hasBack, hasSearch }) => {
           return null;
       }
     },
-    [dispatch, searchValue],
+    [dispatch, route.params?.category, searchValue],
   );
 
   return (
