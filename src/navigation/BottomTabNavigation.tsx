@@ -12,7 +12,7 @@ import WishListActiveIcon from '../assets/icons/bottom-tabs/WishListActive.svg';
 import { MainHeader } from '../components/organism';
 import { Categories, Home, Profile, WishList } from '../screens';
 import { COLORS } from '../utils/constants';
-import { moderateScale } from '../utils/scale';
+import { moderateScale, verticalScale } from '../utils/scale';
 
 export type BottomTabStackParams = {
   HomeScreen: undefined;
@@ -46,6 +46,7 @@ export const BottomTabNavigation = () => {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.gray,
         tabBarLabelStyle: styles.label,
+        tabBarStyle: styles.tabBarStyle,
         header: () => <MainHeader hasBack={false} />,
       }}>
       <Screen
@@ -87,4 +88,5 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(10),
     lineHeight: moderateScale(12),
   },
+  tabBarStyle: { borderTopWidth: 0, paddingBottom: verticalScale(2) },
 });

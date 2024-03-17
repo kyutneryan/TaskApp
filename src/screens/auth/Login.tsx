@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthService } from '../../api/services';
 import Logo from '../../assets/icons/logo/LogoBig.svg';
-import { Button, Screen, TextInput } from '../../components/atom';
+import { Button, Loading, Screen, TextInput } from '../../components/atom';
 import { LogInFormData } from '../../models/formData';
 import { setIsLoggedIn, setToken, useAppDispatch } from '../../store';
 import { COLORS } from '../../utils/constants';
@@ -22,7 +22,7 @@ export const Login = () => {
 
   const insets = useSafeAreaInsets();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: AuthService.login,
     onSuccess: data => {
       dispatch(setToken(data.token));
@@ -34,6 +34,7 @@ export const Login = () => {
     <Screen
       edges={['left', 'right', 'bottom']}
       style={{ backgroundColor: COLORS.white, paddingTop: insets.top }}>
+      <Loading visible={isPending} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"

@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BackIcon from '../../assets/icons/ArrowBlackBack.svg';
+import BackIcon from '../../assets/icons/ArrowBlackLeft.svg';
 import SearchBlackIcon from '../../assets/icons/SearchBlackIcon.svg';
 import { Maybe } from '../../models/common';
 import { COLORS, HEADER_HEIGHT } from '../../utils/constants';
