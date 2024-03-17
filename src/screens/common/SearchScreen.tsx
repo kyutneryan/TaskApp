@@ -1,8 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
-import { Loading, RefreshControl, Screen } from '../../components/atom';
+import { Screen } from '../../components/atom';
 import { ProductItem } from '../../components/molecule';
 import useDebounce from '../../hooks/useDebounce';
 import { IProduct, IProducts } from '../../models/common';
@@ -12,7 +20,8 @@ import { horizontalScale, verticalScale } from '../../utils/scale';
 
 export const SearchScreen = () => {
   const searchName = useAppSelector(getProductSearchValue);
-  const debouncedSearchName = useDebounce(searchName, 300);
+  const debouncedSearchName = useDebounce(searchName, 500);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
     useInfiniteQuery<IProducts[], Error>({
@@ -31,6 +40,17 @@ export const SearchScreen = () => {
         return pages.length * ITEMS_PER_PAGE;
       },
     });
+
+  const onRefresh = useCallback(async () => {
+    try {
+      setRefreshing(true);
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refetch]);
 
   const items = useMemo(
     () =>
@@ -52,7 +72,12 @@ export const SearchScreen = () => {
   const renderItemSeparatorComponent = useCallback(() => <View style={styles.divider} />, []);
 
   const renderListEmptyComponent = useCallback(
-    () => (isLoading ? <Loading visible /> : <Text style={styles.emptyScreenText}>No data</Text>),
+    () =>
+      isLoading ? (
+        <ActivityIndicator size={'large'} color={COLORS.primary} />
+      ) : (
+        <Text style={styles.emptyScreenText}>No data</Text>
+      ),
     [isLoading],
   );
 
@@ -63,7 +88,14 @@ export const SearchScreen = () => {
   return (
     <Screen edges={['bottom', 'left', 'right']}>
       <FlatList
-        refreshControl={<RefreshControl refetch={refetch} />}
+        refreshControl={
+          <RefreshControl
+            tintColor={`${COLORS.primary}80`}
+            colors={[COLORS.primary]}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
         data={items}
         numColumns={2}
         contentContainerStyle={styles.flatList}
