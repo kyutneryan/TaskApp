@@ -12,6 +12,7 @@ export const COLORS = {
   red: 'red',
   primary: '#7867BE',
   gray: '#CACACA',
+  background: '#F9F9F9',
 };
 
 export const HEADER_HEIGHT = moderateScale(48);

@@ -1,24 +1,25 @@
 import React, { FC, memo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BackIcon from '../../assets/icons/ArrowBlackBack.svg';
 import SearchBlackIcon from '../../assets/icons/SearchBlackIcon.svg';
-import { HEADER_HEIGHT } from '../../utils/constants';
+import { Maybe } from '../../models/common';
+import { COLORS, HEADER_HEIGHT } from '../../utils/constants';
 import { horizontalScale } from '../../utils/scale';
 import { IconButton } from '../atom';
 
 interface Props {
   hasBack?: boolean;
   hasSearch?: boolean;
-  RightComponent?: JSX.Element;
-  LeftComponent?: JSX.Element;
-  CenterComponent?: JSX.Element;
+  RightComponent: Maybe<JSX.Element>;
+  LeftComponent: Maybe<JSX.Element>;
+  CenterComponent: Maybe<JSX.Element>;
 }
 
 const Header: FC<Props> = ({
-  RightComponent,
-  LeftComponent,
+  RightComponent = null,
+  LeftComponent = null,
   hasBack = true,
   hasSearch = true,
   CenterComponent = null,
@@ -26,41 +27,55 @@ const Header: FC<Props> = ({
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView edges={['top']}>
+    <SafeAreaView edges={['top']} style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.base}>
-        {hasBack ? (
-          <View style={styles.iconWrapper}>
-            <IconButton Icon={<BackIcon />} onPress={navigation.goBack} />
-          </View>
-        ) : (
-          LeftComponent
-        )}
+        <View style={styles.left}>
+          {hasBack ? (
+            <View style={styles.iconWrapper}>
+              <IconButton Icon={<BackIcon />} onPress={navigation.goBack} />
+            </View>
+          ) : (
+            LeftComponent
+          )}
+        </View>
         {CenterComponent}
-        {hasSearch ? (
-          <View style={styles.iconWrapper}>
-            <IconButton Icon={<SearchBlackIcon />} onPress={() => {}} />
-          </View>
-        ) : (
-          RightComponent
-        )}
+        <View style={styles.right}>
+          {hasSearch ? (
+            <View style={styles.iconWrapper}>
+              <IconButton Icon={<SearchBlackIcon />} onPress={() => {}} />
+            </View>
+          ) : (
+            RightComponent
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: COLORS.white,
+  },
   base: {
     flexDirection: 'row',
     width: '100%',
     height: HEADER_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: horizontalScale(20),
+    paddingHorizontal: horizontalScale(10),
   },
   iconWrapper: {
     height: '100%',
-    width: horizontalScale(48),
     justifyContent: 'center',
+  },
+  right: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  left: {
+    flex: 1,
   },
 });
 

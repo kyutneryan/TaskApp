@@ -9,7 +9,7 @@ import ProfileIcon from '../assets/icons/bottom-tabs/Profile.svg';
 import ProfileActiveIcon from '../assets/icons/bottom-tabs/ProfileActive.svg';
 import WishListIcon from '../assets/icons/bottom-tabs/WishList.svg';
 import WishListActiveIcon from '../assets/icons/bottom-tabs/WishListActive.svg';
-import { Header } from '../components/molecule';
+import { MainHeader } from '../components/organism';
 import { Categories, Home, Profile, WishList } from '../screens';
 import { COLORS } from '../utils/constants';
 import { moderateScale } from '../utils/scale';
@@ -39,8 +39,6 @@ export const BottomTabNavigation = () => {
     }
   }, []);
 
-  const renderHeader = useCallback(() => <Header />, []);
-
   return (
     <Navigator
       initialRouteName="HomeScreen"
@@ -48,7 +46,7 @@ export const BottomTabNavigation = () => {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.gray,
         tabBarLabelStyle: styles.label,
-        header: renderHeader,
+        header: () => <MainHeader hasBack={false} />,
       }}>
       <Screen
         name="HomeScreen"
@@ -75,6 +73,7 @@ export const BottomTabNavigation = () => {
         name="Profile"
         component={Profile}
         options={{
+          header: () => <MainHeader hasBack={false} hasSearch={false} />,
           tabBarIcon: ({ focused }) => renderIcon('Profile', focused),
         }}
       />
