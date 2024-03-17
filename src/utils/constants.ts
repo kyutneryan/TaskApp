@@ -24,3 +24,5 @@ export const COLORS = {
 
 export const HEADER_HEIGHT = verticalScale(48);
 export const HORIZONTAL_PADDING = horizontalScale(15);
+
+export const ITEMS_PER_PAGE = 10;

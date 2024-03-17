@@ -1,18 +1,38 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { ProductService } from '../../api/services';
-import { Screen } from '../../components/atom';
+import { RefreshControl, Screen } from '../../components/atom';
 import { ProductItem } from '../../components/molecule';
-import { IProduct } from '../../models/common';
-import { COLORS, QUERY_KEY } from '../../utils/constants';
+import { IProduct, IProducts } from '../../models/common';
+import { COLORS, ITEMS_PER_PAGE, QUERY_KEY } from '../../utils/constants';
 import { horizontalScale, verticalScale } from '../../utils/scale';
 
 export const SearchPage = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: [QUERY_KEY.getProducts],
-    queryFn: ProductService.getProducts,
-  });
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
+    useInfiniteQuery<IProducts[], Error>({
+      initialPageParam: 0,
+      queryKey: [QUERY_KEY.getProducts],
+      queryFn: ({ pageParam }) =>
+        ProductService.getProducts({ skip: pageParam as number, limit: ITEMS_PER_PAGE }),
+      getNextPageParam: (lastPage: IProducts[], pages) => {
+        if (lastPage?.length < ITEMS_PER_PAGE) {
+          return false;
+        }
+        return pages.length * ITEMS_PER_PAGE;
+      },
+    });
+
+  const items = useMemo(
+    () =>
+      data?.pages.reduce((prev, curr) => {
+        if (curr) {
+          return [...prev, ...(curr as unknown as IProducts).products];
+        }
+        return prev;
+      }, [] as IProduct[]),
+    [data?.pages],
+  );
 
   const keyExtractor = useCallback((item: IProduct) => item.id.toString(), []);
 
@@ -27,10 +47,15 @@ export const SearchPage = () => {
     [isLoading],
   );
 
+  const onEndReached = useCallback(() => {
+    hasNextPage && !isFetchingNextPage && fetchNextPage();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
   return (
     <Screen edges={['bottom', 'left', 'right']}>
       <FlatList
-        data={data?.products}
+        refreshControl={<RefreshControl refetch={refetch} />}
+        data={items}
         numColumns={2}
         contentContainerStyle={styles.flatList}
         columnWrapperStyle={styles.columnWrapper}
@@ -39,6 +64,9 @@ export const SearchPage = () => {
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.5}
+        scrollEventThrottle={16}
       />
     </Screen>
   );
