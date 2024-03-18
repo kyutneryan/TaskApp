@@ -6,5 +6,4 @@ declare module '*.svg' {
 }
 
 declare module '*.png';
-
-declare module 'react-native-customized-image-picker';
+declare module '*.jpg';
