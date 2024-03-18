@@ -1,17 +1,23 @@
 import React, { FC, memo, useCallback, useState } from 'react';
 import {
   Image,
+  ImageStyle,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
+  StyleProp,
   StyleSheet,
   View,
 } from 'react-native';
 import { COLORS, HORIZONTAL_PADDING, WINDOW_WIDTH } from '../../utils/constants';
-import { banners } from '../../utils/helpers';
 import { moderateScale, verticalScale } from '../../utils/scale';
 
-const ImageSlider: FC = () => {
+interface Props {
+  images: string[];
+  imageStyle?: StyleProp<ImageStyle>;
+}
+
+const ImageSlider: FC<Props> = ({ images, imageStyle }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     setCurrentPage(Math.round(event.nativeEvent.contentOffset.x / WINDOW_WIDTH));
@@ -25,12 +31,17 @@ const ImageSlider: FC = () => {
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}>
-        {banners.map(({ banner, id }) => (
-          <Image key={id} source={banner} style={styles.image} resizeMode="cover" />
+        {images.map((image, idx) => (
+          <Image
+            key={idx}
+            source={typeof image === 'string' ? { uri: image } : image}
+            style={[styles.image, imageStyle]}
+            resizeMode="cover"
+          />
         ))}
       </ScrollView>
       <View style={styles.pagination}>
-        {banners.map((_, index) => (
+        {images.map((_, index) => (
           <View
             key={index}
             style={[

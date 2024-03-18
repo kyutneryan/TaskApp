@@ -8,6 +8,7 @@ import { Loading, Screen } from '../../components/atom';
 import { ImageSlider } from '../../components/molecule';
 import { ProductsList } from '../../components/organism';
 import { COLORS, QUERY_KEY } from '../../utils/constants';
+import { banners } from '../../utils/helpers';
 import { verticalScale } from '../../utils/scale';
 
 export const Home = () => {
@@ -62,7 +63,7 @@ export const Home = () => {
         ItemSeparatorComponent={renderItemSeparatorComponent}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={renderListEmptyComponent}
-        ListHeaderComponent={<ImageSlider />}
+        ListHeaderComponent={<ImageSlider images={banners} />}
         ListHeaderComponentStyle={styles.headerStyle}
       />
     </Screen>

@@ -45,11 +45,7 @@ const categoriesWithImage = [
   { key: 'lighting', image: lighting },
 ];
 
-export const banners = [
-  { id: 1, banner: banner1 },
-  { id: 2, banner: banner2 },
-  { id: 3, banner: banner3 },
-];
+export const banners = [banner1, banner2, banner3];
 
 export const transformCategoriesData = (data: Array<string>) => {
   return data.map(el => {
@@ -59,4 +55,9 @@ export const transformCategoriesData = (data: Array<string>) => {
       image: categoriesWithImage.find(({ key }) => el === key)?.image,
     };
   });
+};
+
+export const applyDiscount = (priceAfterDiscount: number, discountPercentage: number) => {
+  const priceBeforeDiscount = priceAfterDiscount / (1 - discountPercentage / 100);
+  return priceBeforeDiscount.toFixed(2);
 };
